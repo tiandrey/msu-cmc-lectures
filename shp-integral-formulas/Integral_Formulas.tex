@@ -1,0 +1,45 @@
+\documentclass[a4]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+%\usepackage{amsthm}
+%\usepackage{amsfonts}
+%\usepackage{amssymb}
+\DeclareSymbolFont{lsymb}{U}{euex}{m}{n}
+\DeclareMathSymbol{\intop}{\mathop}{lsymb}{"52}
+\textwidth=180mm
+\textheight=265mm
+\oddsidemargin=0mm
+\headheight=0mm
+\hoffset=-12mm
+\voffset=-28mm
+\parindent=0in
+\renewcommand{\int}{\displaystyle\intop}
+\begin{document}
+\paragraph{Таблица интегралов из Демидовича: ($+C$ как бе подразумеваетcя)}
+\begin{enumerate}
+\item$\int x^ndx                          = \cfrac{x^{n+1}}{n+1}\ (n\neq-1)$
+\item$\int \cfrac{dx}{x}                  = \ln|x|\ (x\neq0)$
+\item$\int \cfrac{dx}{1+x^2}              = \left\{ \begin{matrix}\arctg\ x&\\-\arcctg\ x&\end{matrix}\right.$
+\item$\int \cfrac{dx}{1-x^2}              = \cfrac12\ln\left|\cfrac{1+x}{1-x}\right|$
+\item$\int \cfrac{dx}{\sqrt{1-x^2}}       = \left\{ \begin{matrix}\arcsin\ x&\\-\arccos\ x&\end{matrix}\right.$
+\item$\int \cfrac{dx}{\sqrt{x^2\pm1}}     = \ln|x+\sqrt{x^2\pm1}|$
+\item$\int a^xdx                          = \cfrac{a^x}{\ln a}\ (a>0,\ a\neq1);\ \int e^xdx=e^x$
+\item$\int \sin x\ dx                     = -\cos x$
+\item$\int \cos x\ dx                     = \sin x$
+\item$\int \cfrac{dx}{\sin^2x}            = -\ctg x$
+\item$\int \cfrac{dx}{\cos^2x}            = \tg x$
+\item$\int \sh x\ dx                      = \ch x$
+\item$\int \ch x\ dx                      = \sh x$
+\item$\int \cfrac{dx}{\sh^2x}             = -\cth x$
+\item$\int \cfrac{dx}{\ch^2x}             = \th x$
+\item$\int \cfrac{dx}{a^2+x^2}            = \cfrac1a\arctg{\cfrac xa}\ (a\neq0)$
+\item$\int \cfrac{dx}{a^2-x^2}            = \cfrac1{2a}\ln\left|\cfrac{a+x}{a-x}\right|\ (a\neq0)$
+\item$\int \cfrac{xdx}{a^2\pm x^2}        = \pm\cfrac12\ln|a^2\pm x^2|$
+\item$\int \cfrac{dx}{\sqrt{a^2-x^2}}     = \arcsin\cfrac xa$
+\item$\int \cfrac{dx}{\sqrt{x^2\pm a^2}}  = \ln|x+\sqrt{x^2\pm a^2}|$
+\item$\int \cfrac{xdx}{\sqrt{a^2\pm x^2}} = \pm\sqrt{a^2\pm x^2}$
+\item$\int \sqrt{a^2-x^2}dx               = \cfrac x2\sqrt{a^2-x^2}+\cfrac{a^2}2\arcsin\cfrac xa$
+\item$\int \sqrt{x^2\pm a^2}dx            = \cfrac x2\sqrt{x^2\pm a^2}\pm\cfrac{a^2}2\ln|x+\sqrt{x^2\pm a^2}|$
+\end{enumerate}
+\end{document}

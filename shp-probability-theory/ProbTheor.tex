@@ -1,0 +1,64 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\DeclareSymbolFont{lsymb}{U}{euex}{m}{n}
+\DeclareMathSymbol{\intop}{\mathop}{lsymb}{"52}
+\textwidth=180mm
+\textheight=265mm
+\oddsidemargin=0mm
+\headheight=0mm
+\hoffset=-12mm
+\voffset=-28mm
+\parindent=0in
+\renewcommand{\int}{\displaystyle\intop}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\begin{document}
+\section*{Немного об условном математическом ожидании}
+Рассмотрим вероятностное пространство $(\Omega,\mathcal{A},\P)$ с множеством элементарных событий $\Omega$, сигма-алгеброй $\mathcal{A}$ и вероятностной мерой $\mathbb{P}$, а в нём случайный величины $\xi=\xi(\omega),\ \eta=\eta(\omega),\ \omega\in\Omega$.
+\subsection*{Дискретный случай}
+$\begin{matrix}
+\xi&= & x_1, & x_2, & \ldots \\
+\eta&= & y_1, & y_2, & \ldots
+\end{matrix}$
+$$\P(\xi=x_i|\eta=y_k)=\cfrac{\P(\xi=x_i,\eta=y_k)}{\P(\eta=y_k)}$$ --- обычная условная вероятность.
+
+Зафиксируем $k$.
+$$\sum_i\cfrac{\P(\xi=x_i,\eta=y_k)}{\P(\eta=y_k)}=1$$
+$$\E(\xi|\eta=y_k)=\sum_ix_i\cfrac{\P(\xi=x_i,\eta=y_k)}{\P(\eta=y_k)}=f(y_k)$$ --- условное мат. ожидание дискретной случайной величины $\xi$ при условии $\eta=y_k$.
+
+$\E(\xi|\eta)$ --- дискретная случайная величина, имеющая следующее распределение:
+$\P(\E(\xi|\eta)=f(y_j))=\P(\eta=y_j)$
+
+\subsection*{Непрерывный случай}
+\begin{multline*}
+\forall B\in\mathcal{B}\ \E[\E(\xi|\eta)I(\eta\in B)]=\sum_{j:y_j\in B}f(y_j)\P(\eta=y_j)=\sum_{j:y_j\in B}\sum_kx_k\cfrac{\P(\xi=x_k,\eta=y_j)}{\P(\eta=y_j)}\P(\eta=y_j)=\\
+=\sum_{j:y_j\in B}\sum_kx_k\P(\xi=x_k,\eta=y_j)=\E[\xi I(\eta\in B)]
+\end{multline*}
+$$
+\E[\E(\xi|\eta)I(\eta\in B)]=\E[\xi I(\eta\in B)]\ (\star)
+$$
+$$
+P((\xi,\eta)\in B)=\int_Bp_{\xi,\eta}(x,y)dxdy\ \forall B\in\mathcal{B}
+$$
+$$
+P(\xi<x|\eta=y)=\cfrac{P(\xi<x,\eta=y)}{P(\eta=y)}=\cfrac00
+$$
+$$
+\underset{\varepsilon>0}{P}(\xi<x|y\leq\eta\leq y+\varepsilon)=
+\cfrac{P(\xi<x,y\leq\eta\leq y+\varepsilon)}{P(y\leq\eta\leq y+\varepsilon)}=
+\cfrac{\int_{-\infty}^x\left[\int_y^{y+\varepsilon}p_{\xi,\eta}(z,y)dy\right]dz}{\int_y^{y+\varepsilon}p_\eta(y)dy}=
+\int_{-\infty}^x\cfrac{\varepsilon p_{\xi,\eta}(z,y')}{\varepsilon p_{\eta}(y'')}dz\underset{\varepsilon\to0}{\longrightarrow}\int_{-\infty}^x\cfrac{p_{\xi,\eta}(z,y)}{p_\eta(y)}dz
+$$
+Условная плотность случайной величины $\xi$: $p_{\xi|\eta=y}(x,y)=\cfrac{p_{\xi,\eta}(x,y)}{p_\eta(y)}$
+$$
+\E(\xi|\eta=y)=\int_{-\infty}^{\infty}xp_{\xi|\eta=y}(x,y)dx=f(y)
+$$
+$f(\eta)$ -- условное мат. ожидание абсолютно непрерывной случайной величины $\xi$ относительно абсолютно непрерывной случайной величины $\eta$.
+\subsection*{Summary}
+Иными словами, $\E(\xi|\eta)=f(\eta)$
+\end{document}
