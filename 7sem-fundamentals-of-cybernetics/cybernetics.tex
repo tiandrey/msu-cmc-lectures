@@ -8,7 +8,7 @@
 \usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{bbold}
-\usepackage{hyperref}
+\usepackage[colorlinks]{hyperref}
 
 %\binoppenalty=10000
 %\relpenalty=10000
@@ -45,6 +45,7 @@
 \newtheorem* {remark} {Замечание}
 \theoremstyle {remark}
 \newtheorem* {sled} {Следствие}
+\newcommand{\nx}{\overline{x}}
 
 \newcommand{\s}[1]
 {
@@ -963,7 +964,7 @@ $(\nx_1\lor \nx_1) \Rightarrow \nx=1$
 
 Если литералы различны, то эта формула выполнима тогда и только тогда, когда $\ \underset{1\leq i\leq k}{\underset{1\leq j\leq l}{\&}}(y_i\lor z_j)K'=\Phi'$
 
-$\Phi'$ - выполнима, тогда $\begin{matrix}(x_1\lor y_1\ldots y_k)=1\$x_1\lor z_1\ldots z_l)=1\end{matrix}$
+$\Phi'$ - выполнима, тогда $\begin{matrix}(x_1\lor y_1\ldots y_k)=(x_1\lor z_1\ldots z_l)=1\end{matrix}$
 
 $\left. \begin{matrix}
 x_1=1 \Rightarrow  z_1=\ldots=z_l=1\\
@@ -997,5 +998,109 @@ $(x_2\lor x_3\nx_4)(\nx_2\lor x_3)(x_3\lor x_4)\ \Leftrightarrow\ (x_3\lor x_3)(
 $\w\in$3-ВЫП тогда и только тогда, когда $\w$ -- КНФ, любая скобка которой содержит ровно 3 литерала.
 
 Задача распознавания 3-выполнимости является NP-полной.
+
+\s {Решение задач}
+
+\ss {Построение сокращённой ДНФ}
+
+Функция задана таблицей истинности или формулой, нужно построить её сокращённую ДНФ. В зависимости от количества переменных, используются различные методы.
+\begin{itemize}
+\item {\bfseries Геометрический метод - 3 или 4 переменные}
+
+Рисуем булев куб, на нём отмечаем вершины, в которых функция истинна. Выбираем все максимальные грани, содержащие только эти вершины.
+
+\item {\bfseries Метод Нельсона}
+
+Раскрываем скобки в формуле, сокращаем/поглощаем.
+
+\item {\bfseries Метод карты Карно - 3 или 4 переменные}
+
+Перерисовываем таблицу истинности в волшебной форме:
+$$
+\begin{tabular}{c c c | c c c c}
+    &     & x_3 & 0 & 0 & 1 & 1 \\
+    &     & x_4 & 0 & 1 & 1 & 0 \\
+x_1 & x_2 &     &&&& \\ \hline
+0   & 0   &     &&&& \\
+0   & 1   &     &&&& \\
+1   & 1   &     &&&& \\
+1   & 0   &     &&&&
+\end{tabular}
+$$
+В этой таблице каждому максимальному прямоугольнику из единиц с площадью, равной степени двойки, соответствует простая импликанта.
+
+\item {\bfseries Метод Блэйка}
+
+$xK_1\lor\overline{x}K_2=xK_1\lor\overline{x}K_2\lor K_1K_2$ + поглощение
+\end{enumerate}
+
+\ss {Построение всех тупиковых тестов}
+
+Тест для таблицы - множество строк, в которых все столбцы различны.
+
+Задана цель контроля - задано множество пар различных столбцов $\mathcal{N}$. В частности, если $\mathcal{N}$ состоит из всех возможных пар различных столбцов, то цель контроля - диагностика схемы; если $\mathcal{N}=((1,2),(1,3),\ldots,(1,n))$, то цель контроля - проверка схемы.
+
+Ответ получим из КНФ, которая строится следующим образом: каждой паре столбцов их $\mathcal{N}$ соответствует элементарная дизъюнкция, литералы которой - номера строк, в которых эти два столбца различаются.
+
+Пример: есть пара столбцов $(0\ 1\ 0\ 0\ 1)^T$ и $(1\ 0\ 1\ 1\ 1)^T$, ей соответствует элементарная дизъюнкция $(1\lor2\lor3\lor4)$.
+
+\ss {Решение уравнений в функции Линдона}
+
+Функция Линдона:
+$$
+\begin{tabular}{c c | c c c}
+& y & 2 & 3 & 4 \\
+x & & &&\\ \hline
+1 && 1 & 5 & 6 \\
+5 && 5 & 5 & 5 \\
+6 && 6 & 6 & 6
+\end{tabular}
+$$
+Для неё справедливы следующие тождества ($\phi(x,y) = x\cdot y$):
+\begin{enumerate}
+\item $x\cdot x\equiv 0$
+\item $x\cdot (y \cdot z)\equiv 0$
+\item $0\cdot x\equiv 0$
+\item $u_1\cdot u_2\cdot\ldots\cdot u_{n-1}\cdot u_1\equiv 0$
+\item $u_1\cdot u_2\cdot\ldots\cdot u_{n-1}\cdot u_2\equiv u_1\cdot u_2\cdot\ldots\cdot u_{n-1}$
+\end{enumerate}
+\ss {Сведение ВЫП к 3-ВЫП}
+
+Задача разбивается на две подзадачи:
+\begin{enumerate}
+\item {\bfseries Увеличить количество переменных в элементарной дизъюнкции до трёх}
+
+$x=(x\lor y)(x\lor\overline{y}),\ (x_1\lor x_2)=(x_1\lor x_2 \lor y)(x_1\lor x_2 \lor \overline{y})$
+\item {\bfseries Уменьшить количество переменных в элементарной дизъюнкции до трёх}
+
+$(x_1 \lor \cdots \lor x_n)=(x_1\lor x_2\lor y_1)(\overline{y_{n-3}}\lor x_{n-1}\lor x_n)\underset{i=2}{\overset{n-3}{\&}}(\overline{y_{i-1}}\lor x_{i+1}\lor y_i)$
+\end{enumerate}
+
+\ss {Сведение ВЫП к КЛИКА}
+
+\begin{enumerate}
+\item Каждому литералу ставим в соответствие вершину графа
+\item Рёбра имеются между всеми вершинами, кроме \begin{itemize}
+\item литералов из одной скобки
+\item $x_i$ и $\overline{x_i}$
+\end{itemize}
+\end{enumerate}
+
+\ss {Решение 2-ВЫП последовательным изъятием переменных}
+
+$(x\lor y_1)\ldots(x\lor y_s)(\nx\lor z_1)\ldots(\nx\lor z_n)F=(x\lor y_1\ldots y_s)(\nx\lor z_1\ldots z_n)F\approx(y_1\ldots y_s\lor z_1\ldots z_n)F=\overset{s}{\underset{i=1}{\&}}\overset{n}{\underset{j=1}{\&}}(y_i\lor z_j) F$
+%\begin{multline*}(x\lor y_1)\ldots(x\lor y_s)(\nx\lor z_1)\ldots(\nx\lor z_n)F=(x\lor y_1\ldots y_s)(\nx\lor z_1\ldots z_n)F\approx\\
+%\approx(y_1\ldots y_s\lor z_1\ldots z_n)F=\overset{s}{\underset{i=1}{\&}}\overset{n}{\underset{j=1}{\&}}(y_i\lor z_j) F
+%\end{multline*}
+
+\ss {Построение минимального остовного дерева}
+
+\begin{enumerate}
+\item Дополнительное множество - все рёбра. Ответ - пустое множество.
+\item Если дополнительное множество пусто, закончить.
+\item Взять из дополнительного множества ребро наименьшего веса и добавить в ответ.
+\item Убрать из дополнительного множества все рёбра, образующие цикл с рёбрами из ответа.
+\item Перейти к 2.
+\end{enumerate}
 
 \end{document}
