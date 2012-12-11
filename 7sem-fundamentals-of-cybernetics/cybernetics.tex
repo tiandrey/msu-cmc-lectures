@@ -8,6 +8,8 @@
 \usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{bbold}
+\usepackage{multicol}
+\usepackage{paralist}
 \usepackage[colorlinks]{hyperref}
 
 %\binoppenalty=10000
@@ -45,7 +47,6 @@
 \newtheorem* {remark} {Замечание}
 \theoremstyle {remark}
 \newtheorem* {sled} {Следствие}
-\newcommand{\nx}{\overline{x}}
 
 \newcommand{\s}[1]
 {
@@ -1007,100 +1008,161 @@ $\w\in$3-ВЫП тогда и только тогда, когда $\w$ -- КНФ
 \begin{itemize}
 \item {\bfseries Геометрический метод - 3 или 4 переменные}
 
-Рисуем булев куб, на нём отмечаем вершины, в которых функция истинна. Выбираем все максимальные грани, содержащие только эти вершины.
+Рисуем булев куб, на нём отмечаем вершины, в которых функция истинна.
+Выбираем все максимальные грани, содержащие только эти вершины.
 
 \item {\bfseries Метод Нельсона}
 
-Раскрываем скобки в формуле, сокращаем/поглощаем.
+Переводим формулу в базис ($ \land, \lor, \neg $), раскрываем скобки в
+формуле, сокращаем/поглощаем.
+
+\begin{multicols}{2}
+\begin{center}
+Выражение основных функций через базис ($ \land, \lor, \neg $):
+\begin{align*}
+	x \oplus y & = x \land \overline{y} \lor \overline{x} \land y
+	             = (x \lor y) \land (\overline{x} \lor \overline{y})
+	                \\
+	x \sim y & = \overline{x \oplus y}
+	           = x \land y \lor \overline{x} \land \overline{y}
+	           = (x \lor \overline{y}) \land (\overline{x} \lor y)
+	                \\
+	x \rightarrow y & = \overline{x} \lor y
+	                \\
+	x \mid y & = \overline{x \land y}
+	          = \overline{x} \lor \overline{y}
+	                \\
+	x \downarrow y & = \overline{x \lor y}
+	                 = \overline{x} \land \overline{y}
+\end{align*}
+
+Законы поглoщения:
+\begin{align*}
+	& x \land (x \lor y) = x \\
+	& x \lor x \land y = x
+\end{align*}
+\end{center}
+\end{multicols}
 
 \item {\bfseries Метод карты Карно - 3 или 4 переменные}
 
 Перерисовываем таблицу истинности в волшебной форме:
-$$
+
+
 \begin{tabular}{c c c | c c c c}
-    &     & x_3 & 0 & 0 & 1 & 1 \\
-    &     & x_4 & 0 & 1 & 1 & 0 \\
-x_1 & x_2 &     &&&& \\ \hline
-0   & 0   &     &&&& \\
-0   & 1   &     &&&& \\
-1   & 1   &     &&&& \\
-1   & 0   &     &&&&
+    &     & $ x_3 $ & 0 & 0 & 1 & 1 \\
+    &     & $ x_4 $ & 0 & 1 & 1 & 0 \\
+$ x_1 $ & $ x_2 $ &     &   &   &   &   \\ \hline
+0   & 0   &           &     &   &   &   \\
+0   & 1   &           &     &   &   &   \\
+1   & 1   &           &     &   &   &   \\
+1   & 0   &           &     &   &   &
 \end{tabular}
-$$
-В этой таблице каждому максимальному прямоугольнику из единиц с площадью, равной степени двойки, соответствует простая импликанта.
+
+
+В этой таблице каждому максимальному прямоугольнику из единиц с
+площадью, равной степени двойки, соответствует простая импликанта.
 
 \item {\bfseries Метод Блэйка}
 
 $xK_1\lor\overline{x}K_2=xK_1\lor\overline{x}K_2\lor K_1K_2$ + поглощение
-\end{enumerate}
+\end{itemize}
 
 \ss {Построение всех тупиковых тестов}
 
 Тест для таблицы - множество строк, в которых все столбцы различны.
 
-Задана цель контроля - задано множество пар различных столбцов $\mathcal{N}$. В частности, если $\mathcal{N}$ состоит из всех возможных пар различных столбцов, то цель контроля - диагностика схемы; если $\mathcal{N}=((1,2),(1,3),\ldots,(1,n))$, то цель контроля - проверка схемы.
+Задана цель контроля - задано множество пар различных столбцов
+$\mathcal{N}$. В частности, если $\mathcal{N}$ состоит из всех возможных
+пар различных столбцов, то цель контроля - диагностика схемы; если
+$\mathcal{N}=((1,2),(1,3),\ldots,(1,n))$, то цель контроля - проверка
+схемы.
 
-Ответ получим из КНФ, которая строится следующим образом: каждой паре столбцов их $\mathcal{N}$ соответствует элементарная дизъюнкция, литералы которой - номера строк, в которых эти два столбца различаются.
+Ответ получим из КНФ, которая строится следующим образом: каждой паре
+столбцов их $\mathcal{N}$ соответствует элементарная дизъюнкция,
+литералы которой - номера строк, в которых эти два столбца различаются.
 
-Пример: есть пара столбцов $(0\ 1\ 0\ 0\ 1)^T$ и $(1\ 0\ 1\ 1\ 1)^T$, ей соответствует элементарная дизъюнкция $(1\lor2\lor3\lor4)$.
+Пример: есть пара столбцов $(0\ 1\ 0\ 0\ 1)^T$ и $(1\ 0\ 1\ 1\ 1)^T$, ей
+соответствует элементарная дизъюнкция $(1\lor2\lor3\lor4)$.
+
+Полученную КНФ преобразуем в сокращённую ДНФ. Элементарные конъюнкции в ДНФ представляют собой наборы строк в тестах.
 
 \ss {Решение уравнений в функции Линдона}
 
 Функция Линдона:
-$$
 \begin{tabular}{c c | c c c}
-& y & 2 & 3 & 4 \\
-x & & &&\\ \hline
+& $ y $ & 2 & 3 & 4 \\
+$ x $ & & &&\\ \hline
 1 && 1 & 5 & 6 \\
 5 && 5 & 5 & 5 \\
 6 && 6 & 6 & 6
 \end{tabular}
-$$
 Для неё справедливы следующие тождества ($\phi(x,y) = x\cdot y$):
-\begin{enumerate}
-\item $x\cdot x\equiv 0$
-\item $x\cdot (y \cdot z)\equiv 0$
-\item $0\cdot x\equiv 0$
-\item $u_1\cdot u_2\cdot\ldots\cdot u_{n-1}\cdot u_1\equiv 0$
-\item $u_1\cdot u_2\cdot\ldots\cdot u_{n-1}\cdot u_2\equiv u_1\cdot u_2\cdot\ldots\cdot u_{n-1}$
-\end{enumerate}
+\begin{compactenum}
+	\item $x\cdot x\equiv 0$
+	\item $x\cdot (y \cdot z)\equiv 0$
+	\item $0\cdot x\equiv 0$
+	\item $u_1\cdot u_2\cdot\ldots\cdot u_{n-1}\cdot u_1\equiv 0$
+	\item $u_1\cdot u_2\cdot\ldots\cdot u_{n-1}\cdot u_2\equiv u_1\cdot u_2\cdot\ldots\cdot u_{n-1}$
+\end{compactenum}
+
+\vskip 10pt
+
+\textbf{Пример}:
+
+Найти число решений уравения $ (x \cdot y) \cdot z = x \cdot (y \cdot
+z) $
+
+Правая часть равна $ 0 $ по свойству 2. В левой части убираем скобку.
+Получаем $ x \cdot y \cdot z = 0 $
+
+Так как функция Линдона имеет больше нулей, чем не-нулей, то число решений этого уравнения будем искать как разность количества всевозможных наборов переменных и количества наборов переменных, на которых функция в левой части не равна нулю.
+
+Функция в левой части не равна нулю, если $ x $ принимает значения из
+множества $ (1, 5, 6)$, а $ y $ и $ z $ — из множества $ (2, 3,
+4) $. То есть число таких комбинаций $ = 3 \cdot 3 \cdot 3 $.
+
+Отсюда число решений исходного уравнения $ = 7^3 - 3^3 $.
+
 \ss {Сведение ВЫП к 3-ВЫП}
 
 Задача разбивается на две подзадачи:
 \begin{enumerate}
 \item {\bfseries Увеличить количество переменных в элементарной дизъюнкции до трёх}
 
-$x=(x\lor y)(x\lor\overline{y}),\ (x_1\lor x_2)=(x_1\lor x_2 \lor y)(x_1\lor x_2 \lor \overline{y})$
+$ x \sim (x \lor y)(x \lor \overline{y}),\ (x_1\lor x_2) \sim (x_1\lor x_2 \lor y)(x_1\lor x_2 \lor \overline{y})$
 \item {\bfseries Уменьшить количество переменных в элементарной дизъюнкции до трёх}
 
-$(x_1 \lor \cdots \lor x_n)=(x_1\lor x_2\lor y_1)(\overline{y_{n-3}}\lor x_{n-1}\lor x_n)\underset{i=2}{\overset{n-3}{\&}}(\overline{y_{i-1}}\lor x_{i+1}\lor y_i)$
+$(x_1 \lor \cdots \lor x_n) \sim (x_1\lor x_2\lor y_1) \quad \underset{i=2}{\overset{n-3}{\&}}(\overline{y_{i-1}}\lor x_{i+1}\lor y_i) \quad (\overline{y_{n-3}}\lor x_{n-1}\lor x_n)$
 \end{enumerate}
 
-\ss {Сведение ВЫП к КЛИКА}
+\ss {Сведение 3-ВЫП к КЛИКА}
 
-\begin{enumerate}
-\item Каждому литералу ставим в соответствие вершину графа
-\item Рёбра имеются между всеми вершинами, кроме \begin{itemize}
-\item литералов из одной скобки
-\item $x_i$ и $\overline{x_i}$
-\end{itemize}
-\end{enumerate}
+\begin{compactenum}
+	\item Каждому литералу ставим в соответствие вершину графа
+	\item Рёбра имеются между всеми вершинами, кроме
+	\begin{compactitem}
+		\item литералов из одной скобки
+		\item $x_i$ и $\overline{x_i}$
+	\end{compactitem}
+\end{compactenum}
 
 \ss {Решение 2-ВЫП последовательным изъятием переменных}
 
-$(x\lor y_1)\ldots(x\lor y_s)(\nx\lor z_1)\ldots(\nx\lor z_n)F=(x\lor y_1\ldots y_s)(\nx\lor z_1\ldots z_n)F\approx(y_1\ldots y_s\lor z_1\ldots z_n)F=\overset{s}{\underset{i=1}{\&}}\overset{n}{\underset{j=1}{\&}}(y_i\lor z_j) F$
-%\begin{multline*}(x\lor y_1)\ldots(x\lor y_s)(\nx\lor z_1)\ldots(\nx\lor z_n)F=(x\lor y_1\ldots y_s)(\nx\lor z_1\ldots z_n)F\approx\\
-%\approx(y_1\ldots y_s\lor z_1\ldots z_n)F=\overset{s}{\underset{i=1}{\&}}\overset{n}{\underset{j=1}{\&}}(y_i\lor z_j) F
-%\end{multline*}
+$(x\lor y_1)\ldots(x\lor y_s)(\nx\lor z_1)\ldots(\nx\lor z_n)F=(x\lor y_1\ldots y_s)(\nx\lor z_1\ldots z_n)F \sim (y_1\ldots y_s\lor z_1\ldots z_n)F = \overset{s}{\underset{i=1}{\&}}\overset{n}{\underset{j=1}{\&}}(y_i\lor z_j) F$
 
 \ss {Построение минимального остовного дерева}
 
-\begin{enumerate}
-\item Дополнительное множество - все рёбра. Ответ - пустое множество.
-\item Если дополнительное множество пусто, закончить.
-\item Взять из дополнительного множества ребро наименьшего веса и добавить в ответ.
-\item Убрать из дополнительного множества все рёбра, образующие цикл с рёбрами из ответа.
-\item Перейти к 2.
-\end{enumerate}
+\begin{compactenum}
+	\item Дополнительное множество — все рёбра. Ответ — пустое
+          множество.
+	\item Если дополнительное множество пусто, закончить.
+	\item Взять из дополнительного множества ребро наименьшего веса и
+          добавить в ответ.
+	\item Убрать из дополнительного множества все рёбра, образующие цикл
+          с рёбрами из ответа.
+	\item Перейти к 2.
+\end{compactenum}
+
 
 \end{document}
